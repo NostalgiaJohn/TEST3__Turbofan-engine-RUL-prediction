@@ -6,7 +6,7 @@ class Model(nn.Module):
     def __init__(self):
         super(Model, self).__init__()
         self.lstm = nn.LSTM(batch_first=True, input_size=17, hidden_size=50, num_layers=1)
-        self.attenion = Attention3dBlock()
+        self.attention = Attention3dBlock()
         self.linear = nn.Sequential(
             nn.Linear(in_features=1500, out_features=50),
             nn.ReLU(inplace=True),
@@ -27,7 +27,7 @@ class Model(nn.Module):
     def forward(self, inputs, handcrafted_feature):
         y = self.handcrafted(handcrafted_feature)
         x, (hn, cn) = self.lstm(inputs)
-        x = self.attenion(x)
+        x = self.attention(x)
         # flatten
         x = x.reshape(-1, 1500)
         x = self.linear(x)
