@@ -93,7 +93,7 @@ class Turbofandataset(Dataset):
         self.y = np.array(self.y)/self.max_rul
         for i in range(self.x.shape[0]):
             one_sample = self.x[i]
-            self.mean_and_coef.append(self.fea_extract(one_sample)) # coefficient
+            self.mean_and_coef.append(self.fea_extract(one_sample)) # mean_value and coefficient, 17*2
 
         mu = np.mean(self.mean_and_coef, axis=0)
         sigma = np.std(self.mean_and_coef, axis=0)

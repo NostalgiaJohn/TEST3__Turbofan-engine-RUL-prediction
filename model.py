@@ -15,7 +15,8 @@ class Attention3dBlock(nn.Module):
 
     # inputs: batch size * window size(time step) * lstm output dims
     def forward(self, inputs):
-        x = inputs.permute(0, 2, 1)
+        # REMIND: tensor.permute returns a view of the original tensor with its dimensions permuted
+        x = inputs.permute(0, 2, 1) # inputs(100, 30, 50) -> x(100, 50, 30)
         x = self.linear(x)
         x_probs = x.permute(0, 2, 1)
         # print(torch.sum(x_probs.item()))
@@ -26,7 +27,7 @@ class Model(nn.Module):
     def __init__(self):
         super(Model, self).__init__()
 
-
+        # REMIND: output = (seq_len, batch, hidden_size)
         self.lstm = nn.LSTM(
             batch_first=True,
             input_size=17,
@@ -53,6 +54,9 @@ class Model(nn.Module):
             nn.Linear(in_features=20, out_features=1)
         )
 
+    # REMIND: for FD004, we get
+    #         inputs.shape()=(batch=100, window_width=30, sensors=17)
+    #         handcrafted_feature.shape()=(batch=100, 34)
     def forward(self, inputs, handcrafted_feature):
         y = self.handcrafted(handcrafted_feature)
         x, (hn, cn) = self.lstm(inputs)

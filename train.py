@@ -20,9 +20,13 @@ class Trainer:
         for batch_index, data in enumerate(dataloader, 0):
             inputs, handcrafted_feature, labels = data
             inputs, handcrafted_feature, labels = inputs.to(self.device), handcrafted_feature.to(self.device), labels.to(self.device)
+
             self.model_optimizer.zero_grad()
+            # REMIND: inputs.shape()=(batch=100, window_width=30, sensors=17)
+            #         handcrafted_feature.shape()=(batch=100, 34)
             predictions = self.model(inputs, handcrafted_feature)
             loss = self.criterion(predictions, labels)
+
             running_loss += loss.item()
             loss.backward()
 
