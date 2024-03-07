@@ -21,6 +21,7 @@ if __name__ == '__main__':
     best_RMSE_list = []
     for iteration in range(10):
         print('---Iteration: {}---'.format(iteration + 1))
+
         model = Model()
         optimizer = optim.Adam(model.parameters(), lr=1e-3)
         epochs = 32
