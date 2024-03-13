@@ -27,7 +27,11 @@ class Model(nn.Module):
     def __init__(self):
         super(Model, self).__init__()
 
-        # REMIND: output = (seq_len, batch, hidden_size)
+        # REMIND:
+        #  before
+        #       output = (seq_len, batch, hidden_size)
+        #  after batch_first=True
+        #       output = (batch, seq_len, hidden_size)
         self.lstm = nn.LSTM(
             batch_first=True,
             input_size=17,
